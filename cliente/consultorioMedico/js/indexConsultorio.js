@@ -1,6 +1,33 @@
+// DATOS DEL MEDICO DEL LOCALSTORE
+
+let localStoreMedico = window.localStorage;
+let idMedicoLocalStore = JSON.parse(localStoreMedico.getItem(1));
+idMedicoLocalStore = idMedicoLocalStore.id;
+
+// ------------------------
+
+// FUNCION PARA LLENAR LA TABLA DE LAS CITAS DEL MEDICO
 const func_llenarTablaConsultasCitas = (cedula, estado) => {
   // Definir la variable table fuera de la función initComplete
   let table;
+
+  // antes de inicializar la tabla voy a limpiar por si depronto tiene datos
+  document.getElementById("datosTablaCitas").innerHTML = `     <table
+class="table table-bordered"
+id="datatableCitasPacientes"
+>
+<thead>
+  <tr>
+    <th>ID</th>
+    <th>PACIENTE</th>
+    <th>MEDICO</th>
+    <th>FECHA</th>
+    <th>HORA</th>
+    <th>ESTADO</th>
+  </tr>
+</thead>
+<tbody></tbody>
+</table>`;
 
   $("#datatableCitasPacientes").dataTable({
     ajax: {
@@ -53,8 +80,9 @@ const func_llenarTablaConsultasCitas = (cedula, estado) => {
     },
   });
 };
+// -- FIN FUNCION --
 
-func_llenarTablaConsultasCitas(1006, "Confirmado");
+func_llenarTablaConsultasCitas(idMedicoLocalStore, "Pendiente");
 
 // FUNCION PARA LLENAR LOS INPUS CON LOS DATOS DEL PACIENTE
 
@@ -91,10 +119,9 @@ const func_selecionarCliente = (id, fecha, estado) => {
       });
       // aca hago si estado es confirmado desactivo el boton
       if (estado == "Confirmado") {
-        let btnIniciarFormulario = document.getElementById(
-          "btnIniciarFormulario"
-        );
-        btnIniciarFormulario.disabled = true;
+        document.getElementById("btnIniciarFormulario").disabled = true;
+      } else {
+        document.getElementById("btnIniciarFormulario").disabled = false;
       }
     });
 };
@@ -560,7 +587,7 @@ const func_insertarFormularioAlaBaseDatos = () => {
     ).value; // aca voy a obtener la Cedula del Paciente
     let datosLocalStore = window.localStorage;
     let datosMedico = JSON.parse(datosLocalStore.getItem(1));
-    datosMedico = datosMedico.cedulaMedico;
+    datosMedico = datosMedico.id; // verificar despues
 
     console.log(
       "cedula :" +
@@ -603,15 +630,11 @@ const func_insertarFormularioAlaBaseDatos = () => {
             cancelButtonColor: "#d33",
             confirmButtonText: "Si, Agendar Cita!",
           }).then((result) => {
-            // si le da que si va abrir un modal nuevo donde va poder Agendar la Cita
-
+            // aca voy hacer que si le da en si lo envie al formulario de agendar citas si le da en cancelar se recarga la pagina
             if (result.isConfirmed) {
-              // Abrir el segundo modal
-              console.log("Abriendo el segundo modal...");
-
-              modalAgendarCita.show();
+              // enviar al formulario de agendarCita.html
             } else {
-              window.location.href = "indexConsultorio.html";
+              location.reload();
             }
           });
 
@@ -639,3 +662,18 @@ const func_insertarFormularioAlaBaseDatos = () => {
 };
 
 // -- FIN FUNCION --
+
+// EVENTO DEL BOTON CITAS PARA QUE SELECIONE QUE TIPO DE CITAS QUIERE QUE LE APARESCA SI PENDIENTES O CONFIRMADAS
+
+document.getElementById("consultasCitas").addEventListener("click", () => {
+  console.log(consultasCitas.innerText);
+  if (consultasCitas.innerText == "Citas Pendientes") {
+    consultasCitas.innerText = "Citas Confirmadas";
+    func_llenarTablaConsultasCitas(idMedicoLocalStore, "Pendiente");
+    console.log("entro pende");
+  } else if (consultasCitas.innerText == "Citas Confirmadas") {
+    consultasCitas.innerText = "Citas Pendientes";
+    func_llenarTablaConsultasCitas(idMedicoLocalStore, "Confirmado");
+    console.log("entro confir");
+  }
+});
