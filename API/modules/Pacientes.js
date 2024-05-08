@@ -145,7 +145,7 @@ citas.put("/cita/update/:id", (req, res) => {
   //Traer datos del paciente por identificacion
 citas.get("/paciente/traerDatosPaciente/:identificacion", (req, res) => {
   let identificacion = req.params.identificacion; //parametro
-  mysql.query("SELECT cedulaPaciente, nombrePaciente, apellidoPaciente, emailPaciente,telefonoPaciente, movilPaciente, fechaNacimientoPqciente, epsPaciente, usuarioPaciente FROM paciente WHERE cedulaPaciente = ?", [identificacion], (error, data) => {
+  mysql.query("SELECT cedulaPaciente, nombrePaciente, apellidoPaciente, emailPaciente,telefonoPaciente, movilPaciente, fechaNacimientoPqciente, epsPaciente, usuarioPaciente,passwordPaciente FROM paciente WHERE cedulaPaciente = ?", [identificacion], (error, data) => {
     try {
       if(data==0){
         res.status(400).send("No hay datos en la base de datos!!");
