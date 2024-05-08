@@ -11,7 +11,10 @@
     <meta name="author" content="" />
 
     <title>Consultorio Medico</title>
-
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
     <!-- Custom fonts for this template-->
     <link
       href="../vendor/fontawesome-free/css/all.min.css"
@@ -447,151 +450,76 @@
             >
               <h1 class="h3 mb-0 text-gray-800">Centro Medico Lourdes</h1>
             </div>
+            <!-- CONTENIDO DEL INPUT DE BUSQUEDA -->
 
-            <!-- Content Row -->
+            <div class="row">
+              <div class="col-sm-9 col-md-9 col-lg-9 col-xl-9">
+                <div class="form-floating mb-3">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="inputCedulaPaciente"
+                    placeholder="name@example.com"
+                  />
+                  <label for="floatingInput"
+                    >Ingrese la Cedula del Paciente</label
+                  >
+                </div>
+              </div>
+              <div
+                class="col-sm-2 col-md-2 col-lg-2 col-xl-2 align-items-center d-flex mb-3"
+              >
+                <button
+                  id="btnBuscarFormula"
+                  style="width: 100%"
+                  type="button"
+                  class="btn btn-primary"
+                >
+                  Buscar
+                </button>
+              </div>
+            </div>
+            <!-- FIN CONTENIDO  -->
+
+            <!-- CONTENIDO TABLAS -->
 
             <div id="contenedorPrincipal" class="row">
-              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-7">
-                <div class="row">
-                  <div class="col-md-8 col-sm-7">
-                    <button
-                      id="consultasCitas"
-                      type="button"
-                      class="btn btn-outline-primary"
-                    >
-                      Citas Confirmadas
-                    </button>
-                  </div>
-                </div>
-                <div id="datosTablaCitas" class="table-responsive">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-5">
+                <!-- ACA VA IR LA TABLA DONDE VA IR LA FORMULA DEL PACIENTE -->
+                <div id="datosTablaFormula" class="table-responsive">
                   <table
                     class="table table-bordered"
-                    id="datatableCitasPacientes"
+                    id="datatableFormularioPacientes"
                   >
                     <thead>
                       <tr>
                         <th>ID</th>
-                        <th>PACIENTE</th>
-                        <th>MEDICO</th>
-                        <th>FECHA</th>
-                        <th>HORA</th>
-                        <th>ESTADO</th>
+                        <th>Paciente</th>
+                        <th>Medico</th>
+                        <th>Fecha Formula</th>
                       </tr>
                     </thead>
                     <tbody></tbody>
                   </table>
                 </div>
               </div>
-              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                <!-- ACA VA IR LOS DATOS DEL PACIENTE -->
-
-                <h4>Datos Paciente</h4>
-                <div class="dato1">
-                  <input type="text" id="idCedulaPaciente" hidden />
-
-                  <div class="form-floating mb-3 datosInput datosInputnombre">
-                    <input
-                      disabled
-                      type="text"
-                      class="form-control"
-                      id="inputNombrePaciente"
-                    />
-                    <label for="floatingInput">Nombre Paciente</label>
-                  </div>
-                </div>
-                <div class="dato1">
-                  <div class="form-floating mb-3 datosInput">
-                    <input
-                      disabled
-                      type="text"
-                      class="form-control"
-                      id="inputTelefono"
-                    />
-                    <label for="floatingInput">Telefono</label>
-                  </div>
-                  <div class="form-floating mb-3">
-                    <input
-                      disabled
-                      type="text"
-                      class="form-control"
-                      id="inputFecha"
-                    />
-                    <label for="floatingInput">Fecha Nacimiento</label>
-                  </div>
-                </div>
-
-                <div class="dato1">
-                  <div class="form-floating mb-3 datosInput">
-                    <input
-                      disabled
-                      type="text"
-                      class="form-control"
-                      id="inputEPS"
-                    />
-                    <label for="floatingInput">EPS</label>
-                  </div>
-                  <div class="form-floating mb-3">
-                    <input
-                      disabled
-                      type="text"
-                      class="form-control"
-                      id="cedulaPaciente"
-                    />
-                    <label for="floatingInput">Cedula</label>
-                  </div>
-                </div>
-
-                <div class="dato1">
-                  <div class="form-floating mb-3 datosInput">
-                    <input
-                      disabled
-                      type="text"
-                      class="form-control"
-                      id="inputFechaCita"
-                    />
-                    <label for="floatingInput">Fecha Cita</label>
-                  </div>
-                  <div class="form-floating mb-3">
-                    <input
-                      disabled
-                      type="text"
-                      class="form-control"
-                      id="inputEstadoCita"
-                    />
-                    <label for="floatingInput">Estado</label>
-                  </div>
-                </div>
-
-                <div class="dato1">
-                  <div class="form-floating mb-3 datosInput datosInputnombre">
-                    <input
-                      disabled
-                      type="email"
-                      class="form-control"
-                      id="inputCorreo"
-                    />
-                    <label for="floatingInput">Correro</label>
-                  </div>
-                </div>
-
-                <div class="dato1">
-                  <button
-                    onclick="func_reescribirTablas2()"
-                    type="button"
-                    class="btn btn-warning"
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-7">
+                <!-- ACA VA IR la TABLA DONDE VA APARECER EL HISTORIAL -->
+                <div id="datosTablaHistorial" class="table-responsive">
+                  <table
+                    class="table table-bordered"
+                    id="datatableHistorialPacientes"
                   >
-                    Borrar
-                  </button>
-                  <button
-                    disabled
-                    id="btnIniciarFormulario"
-                    type="button"
-                    class="btn btn-success"
-                  >
-                    Iniciar
-                  </button>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Sintomas</th>
+                        <th>Descripcion</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
                 </div>
-
                 <!-- FIN -->
               </div>
             </div>
@@ -692,7 +620,7 @@
     <script src="../assets/js/vfs_fonts.js"></script>
     <script src="../assets/js/buttons.html5.min.js"></script>
     <script src="../assets/js/buttons.print.min.js"></script>
-    <script src="./js/indexConsultorio.js"></script>
+    <script src="./js/historialClinico.js"></script>
     <!-- SCRIP DE LA LIBRERIA sweetalert2-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </body>

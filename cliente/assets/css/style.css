@@ -1,0 +1,75 @@
+@import url("../../../../assets/css/style.css");
+@import url("./dataTables.bootstrap5.css");
+@import url("./responsive.dataTables.css");
+@import url(../../consultorioMedico/css/bootstrap.min.css);
+
+.dato1 {
+  display: flex;
+}
+
+.datosInput {
+  margin-right: 15px;
+}
+
+.datosInputnombre {
+  width: 100%;
+  margin-right: 0%;
+}
+
+.dato1 button {
+  width: 100%;
+}
+
+.btn-warning {
+  margin-right: 11px;
+}
+
+.selectMedicamentos {
+  border-radius: 5px;
+  margin-bottom: 15px;
+  width: 250px;
+  margin-right: 10px;
+}
+.selectorMedicamentos {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.botonEnviar {
+  width: 100%;
+}
+
+.tituloPrincipal {
+  display: flex;
+}
+.tituloPrincipal h1 {
+  font-size: 20px;
+}
+
+.selectMedicamentos2 {
+  border-radius: 5px;
+  margin-bottom: 15px;
+  width: 100%;
+  margin-right: 10px;
+}
+
+.mb-3 h1 {
+  font-size: 25px;
+}
+
+.acaTabla {
+  display: flex;
+  height: 230px;
+  overflow-x: auto;
+  margin-bottom: 40px;
+}
+
+.botones {
+  display: flex;
+  justify-content: center;
+}
+.botones button {
+  width: 60%;
+  margin-bottom: 15px;
+}
