@@ -4,7 +4,7 @@ function validarCorreo(correo) {
 }
 // Obtener el id del usuario del localStorage
 const datos = JSON.parse(window.localStorage.getItem(1));
-fetch(`http://localhost:3000/Funcionario/traerFuncionarioAdminGerente`)
+fetch(`http://localhost:3000/Funcionario/traerFuncionarioInactivo`)
   .then((res) => res.json())
   .then((Programadas) => {
     const miTabla = document.getElementById("dataTable");
@@ -149,7 +149,7 @@ if (!validarCorreo(email)) {
             text: "Se agregó correctamente.",
             icon: "success",
         }).then(() => {
-            window.location.assign("http://127.0.0.1:5500/cliente/Gerente/administrarUsuarios.html");
+            window.location.assign("http://127.0.0.1:5500/cliente/administrador/administrarUsuariosIncativos.html");
         });
     } catch (error) {
         console.error('Error al agregar el Usuario:', error);
@@ -173,7 +173,7 @@ tabla.addEventListener("click", (event) => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Editar',
-        cancelButtonText: 'Desactivar',
+        cancelButtonText: 'activar',
     }).then((result) => {
         if (result.isConfirmed) {
             const fila = event.target.closest("tr"); // Obtener la fila de la tabla
@@ -183,8 +183,7 @@ tabla.addEventListener("click", (event) => {
                 const opciones = [
                   { valor: 4, texto: 'Bodeguero' },
                   { valor: 2, texto: 'Secretaria' },
-                  { valor: 1, texto: 'Administrador' },
-                  { valor: 0, texto: 'Gerente' },
+                
                 ];
               
                 return opciones.map(opcion => `
@@ -322,7 +321,7 @@ tabla.addEventListener("click", (event) => {
                                         text: "La edición se ha completado correctamente.",
                                         icon: "success",
                                     }).then(() => {
-                                        window.location.assign("http://127.0.0.1:5500/cliente/Gerente/administrarUsuarios.html");
+                                        window.location.assign("http://127.0.0.1:5500/cliente/administrador/administrarUsuariosIncativos.html");
                                     });
                                 })
                                 .catch((error) => {
@@ -346,17 +345,17 @@ tabla.addEventListener("click", (event) => {
                 const cedula = fila.querySelector('td:nth-child(1)').textContent;
 
                 Swal.fire({
-                    title: `¿Estás seguro de desactivar al usuario con cédula ${cedula}?`,
+                    title: `¿Estás seguro de activar al usuario con cédula ${cedula}?`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Sí, desactivar',
+                    confirmButtonText: 'Sí, activar',
                     cancelButtonText: 'Cancelar',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Realizar la petición para desactivar el usuario
-                        fetch(`http://localhost:3000/users/updateUnoEstado/${cedula}`, {
+                        // Realizar la petición para activar el usuario
+                        fetch(`http://localhost:3000/medico/updateUnoEstadoActivar/${cedula}`, {
                             method: "PUT",
                             headers: {
                                 "Content-Type": "application/json",
@@ -364,7 +363,7 @@ tabla.addEventListener("click", (event) => {
                         })
                         .then((response) => {
                             if (!response.ok) {
-                                throw new Error("Error al desactivar el usuario.");
+                                throw new Error("Error al activar el usuario.");
                             }
 
                             Swal.fire({
@@ -372,16 +371,16 @@ tabla.addEventListener("click", (event) => {
                                 text: "El usuario ha sido desactivado correctamente.",
                                 icon: "success",
                             }).then(() => {
-                                // Actualizar la tabla después de desactivar al usuario
-                                window.location.assign("http://127.0.0.1:5500/cliente/Gerente/administrarUsuarios.html");
+                                // Actualizar la tabla después de activar al usuario
+                                window.location.assign("http://127.0.0.1:5500/cliente/administrador/administrarUsuariosIncativos.html");
                             });
                         })
                         .catch((error) => {
-                            console.error('Error al desactivar el usuario:', error);
+                            console.error('Error al activar el usuario:', error);
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
-                                text: 'Hubo un error al desactivar el usuario. Por favor, inténtelo de nuevo más tarde.'
+                                text: 'Hubo un error al activar el usuario. Por favor, inténtelo de nuevo más tarde.'
                             });
                         });
                     }

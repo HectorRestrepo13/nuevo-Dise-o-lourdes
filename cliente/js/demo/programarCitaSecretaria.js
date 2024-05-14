@@ -143,7 +143,7 @@ function  funcion_gubuttonrdbuttonrCita() {
                         text: "Se agregó correctamente.",
                         icon: "success",
                     }).then(() => {
-                        window.location.assign("http://127.0.0.1:5500/cliente/paciente/citasProgramadas.html");
+                        window.location.assign("http://127.0.0.1:5500/cliente/Secretaria/index.html");
                     });
                 })
                 .catch((error) => {

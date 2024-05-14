@@ -4,7 +4,7 @@ function validarCorreo(correo) {
 }
 // Obtener el id del usuario del localStorage
 const datos = JSON.parse(window.localStorage.getItem(1));
-fetch(`http://localhost:3000/pacientes/traerPacientes`)
+fetch(`http://localhost:3000/pacientes/traerPacientesInactivos`)
   .then((res) => res.json())
   .then((Programadas) => {
     const miTabla = document.getElementById("dataTable");
@@ -155,7 +155,7 @@ if (!validarCorreo(email)) {
             text: "Se agregó correctamente.",
             icon: "success",
         }).then(() => {
-            window.location.assign("http://127.0.0.1:5500/cliente/administrador/administrarPacientes.html");
+            window.location.assign("http://127.0.0.1:5500/cliente/administrador/administrarPacientesInactivos.html");
         });
     } catch (error) {
         console.error('Error al agregar el paciente:', error);
@@ -179,7 +179,7 @@ tabla.addEventListener("click", (event) => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Editar',
-        cancelButtonText: 'Desactivar',
+        cancelButtonText: 'activar',
     }).then((result)=>{
 
         if(result.isConfirmed){
@@ -340,7 +340,7 @@ if (!validarCorreo(email)) {
                                   text: "La edición se ha completado correctamente.",
                                   icon: "success",
                               }).then(() => {
-                                  window.location.assign("http://127.0.0.1:5500/cliente/administrador/administrarPacientes.html");
+                                  window.location.assign("http://127.0.0.1:5500/cliente/administrador/administrarPacientesInactivos.html");
                               });
                           }
 
@@ -367,17 +367,17 @@ if (!validarCorreo(email)) {
                 const cedula = fila.querySelector('td:nth-child(1)').textContent;
 
                 Swal.fire({
-                    title: `¿Estás seguro de desactivar al usuario con cédula ${cedula}?`,
+                    title: `¿Estás seguro de activar al usuario con cédula ${cedula}?`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Sí, desactivar',
+                    confirmButtonText: 'Sí, activar',
                     cancelButtonText: 'Cancelar',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Realizar la petición para desactivar el usuario
-                        fetch(`http://localhost:3000/users/updateUnoEstado/${cedula}`, {
+                        // Realizar la petición para activar el usuario
+                        fetch(`http://localhost:3000/users/updateUnoEstadoActivar/${cedula}`, {
                             method: "PUT",
                             headers: {
                                 "Content-Type": "application/json",
@@ -385,7 +385,7 @@ if (!validarCorreo(email)) {
                         })
                         .then((response) => {
                             if (!response.ok) {
-                                throw new Error("Error al desactivar el usuario.");
+                                throw new Error("Error al activar el usuario.");
                             }
 
                             Swal.fire({
@@ -393,16 +393,16 @@ if (!validarCorreo(email)) {
                                 text: "El usuario ha sido desactivado correctamente.",
                                 icon: "success",
                             }).then(() => {
-                                // Actualizar la tabla después de desactivar al usuario
-                                window.location.assign("http://127.0.0.1:5500/cliente/administrador/administrarPacientes.html");
+                                // Actualizar la tabla después de activar al usuario
+                                window.location.assign("http://127.0.0.1:5500/cliente/administrador/administrarPacientesInactivos.html");
                             });
                         })
                         .catch((error) => {
-                            console.error('Error al desactivar el usuario:', error);
+                            console.error('Error al activar el usuario:', error);
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
-                                text: 'Hubo un error al desactivar el usuario. Por favor, inténtelo de nuevo más tarde.'
+                                text: 'Hubo un error al activar el usuario. Por favor, inténtelo de nuevo más tarde.'
                             });
                         });
                     }

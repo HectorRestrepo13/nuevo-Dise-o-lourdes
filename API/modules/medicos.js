@@ -52,7 +52,22 @@ medicos.get("/medico/verificarMedico/:cedulaMedico", (req, res) => {
 });
 
 medicos.get("/medico/traerDatos/", (req, res) => {
-  mysql.query("SELECT*FROM medico ", (error, data) => {
+  mysql.query("SELECT*FROM medico where estado='activo'", (error, data) => {
+    try {
+      if (data == 0) {
+        res.status(400).send("No datos en la base de datos!!");
+      } else {
+        res.status(200).send(data);
+      }
+    } catch (error) {
+      console.log(error);
+      throw `hay un error en la consulta${error}`;
+    }
+  });
+});
+
+medicos.get("/medico/traerDatosIncativos/", (req, res) => {
+  mysql.query("SELECT*FROM medico where estado='inactivo' ", (error, data) => {
     try {
       if (data == 0) {
         res.status(400).send("No datos en la base de datos!!");
@@ -183,6 +198,31 @@ const hashedPassword = bcrypt.hashSync(password, 10);
       }
     }
   );
+});
+medicos.put("/medico/updateUnoEstado/:id", (req, res) => {
+  let id = req.params.id; //parametro
+
+  mysql.query("update medico set estado='inactivo' where cedulaMedico=?", [id], (error, data) => {
+    try {
+      res.status(200).send("Actualizacion exitosa!!");
+    } catch (error) {
+      console.log(error);
+      throw `hay un error en la consulta${error}`;
+    }
+  });
+});
+
+medicos.put("/medico/updateUnoEstadoActivar/:id", (req, res) => {
+  let id = req.params.id; //parametro
+
+  mysql.query("update medico set estado='activo' where cedulaMedico=?", [id], (error, data) => {
+    try {
+      res.status(200).send("Actualizacion exitosa!!");
+    } catch (error) {
+      console.log(error);
+      throw `hay un error en la consulta${error}`;
+    }
+  });
 });
 
 module.exports = medicos;
