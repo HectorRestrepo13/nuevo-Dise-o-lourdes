@@ -58,7 +58,7 @@ citas.post("/paciente/create", (req, res) => {
   //Traer todos los pacientes siempre por id
 citas.get("/pacientes/traerPacientes", (req, res) => {
 
-  let consulta = `select * from paciente`;
+  let consulta = `select * from paciente where estado='activo'`;
 
   mysql.query(consulta, (error, data) => {
     try{
@@ -69,10 +69,11 @@ citas.get("/pacientes/traerPacientes", (req, res) => {
     }
   });
 });
-  //Buscar inactivos siempre por id
-citas.get("/pacientes/selecionarpacienteRechazados/:id", (req, res) => {
-    let id = req.params.id;
-    let consulta = `select * from cita where paciente_cedulaPaciente=${id} and estadoCita='pendiente'`;
+
+  //Traer todos los pacientes siempre por id
+  citas.get("/pacientes/traerPacientesInactivos", (req, res) => {
+
+    let consulta = `select * from paciente where estado='inactivo'`;
   
     mysql.query(consulta, (error, data) => {
       try{
@@ -81,6 +82,23 @@ citas.get("/pacientes/selecionarpacienteRechazados/:id", (req, res) => {
         console.log(error);
         throw `hay un error en la consulta${error}`;
       }
+    });
+  });
+  //Buscar inactivos siempre por id
+citas.get("/pacientes/selecionarpacienteRechazados/:id", (req, res) => {
+    let id = req.params.id;
+    let consulta = `select * from cita where paciente_cedulaPaciente=${id} and estadoCita='pendiente'`;
+  
+    mysql.query(consulta, (error, data) => {
+     if(data.length>0){
+      res.status(200).send(data);
+
+     }else{
+
+      res.status(200).send("No hay datos en la base de datos!!");
+     }
+     
+      
     });
   });
 
@@ -145,19 +163,16 @@ citas.put("/cita/update/:id", (req, res) => {
   //Traer datos del paciente por identificacion
 citas.get("/paciente/traerDatosPaciente/:identificacion", (req, res) => {
   let identificacion = req.params.identificacion; //parametro
-  mysql.query("SELECT cedulaPaciente, nombrePaciente, apellidoPaciente, emailPaciente,telefonoPaciente, movilPaciente, fechaNacimientoPqciente, epsPaciente, usuarioPaciente FROM paciente WHERE cedulaPaciente = ?", [identificacion], (error, data) => {
-    try {
-      if(data==0){
+  mysql.query("SELECT cedulaPaciente, nombrePaciente, apellidoPaciente, emailPaciente,telefonoPaciente, movilPaciente, fechaNacimientoPqciente, epsPaciente, usuarioPaciente,passwordPaciente FROM paciente WHERE cedulaPaciente = ?", [identificacion], (error, data) => {
+   
+      if(data<0){
         res.status(400).send("No hay datos en la base de datos!!");
       }else{
         
         res.status(200).send(data);
       }
      
-    } catch (error) {
-      console.log(error);
-      throw `hay un error en la consulta${error}`;
-    }
+  
   });
 });
 
@@ -311,5 +326,29 @@ ORDER BY
   }
 });
 });
+citas.put("/users/updateUnoEstado/:id", (req, res) => {
+  let id = req.params.id; //parametro
 
+  mysql.query("update paciente set estado='inactivo' where cedulaPaciente=?", [id], (error, data) => {
+    try {
+      res.status(200).send("Actualizacion exitosa!!");
+    } catch (error) {
+      console.log(error);
+      throw `hay un error en la consulta${error}`;
+    }
+  });
+});
+
+citas.put("/users/updateUnoEstadoActivar/:id", (req, res) => {
+  let id = req.params.id; //parametro
+
+  mysql.query("update paciente set estado='activo' where cedulaPaciente=?", [id], (error, data) => {
+    try {
+      res.status(200).send("Actualizacion exitosa!!");
+    } catch (error) {
+      console.log(error);
+      throw `hay un error en la consulta${error}`;
+    }
+  });
+});
   module.exports = citas;

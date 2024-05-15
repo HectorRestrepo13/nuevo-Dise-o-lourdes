@@ -5,10 +5,10 @@ const bcrypt=require("bcrypt");
 
 // Traer todos los pacientes siempre por id
 users.get("/Funcionario/traerFuncionario", (req, res) => {
-    let consulta = `SELECT users.cedulaUser, users.emailUser, users.userName, users.password, rol.nombreRol
+    let consulta = `SELECT users.cedulaUser, users.emailUser, users.userName, users.password, rol.nombreRol, users.estado
     FROM users
     INNER JOIN rol ON users.rol_idRol = rol.idRol
-    WHERE rol_idRol IN (2, 4);`;
+    WHERE rol_idRol IN (2, 4) and estado='activo';`;
                    
     mysql.query(consulta, (error, data) => {
 
@@ -26,12 +26,12 @@ users.get("/Funcionario/traerFuncionario", (req, res) => {
   });
   
 
-// Traer todos los pacientes siempre por id
-users.get("/Funcionario/traerFuncionarioAdminGerente", (req, res) => {
-  let consulta = `SELECT users.cedulaUser, users.emailUser, users.userName,rol.nombreRol
+  // Traer todos los pacientes siempre por id y inactivos
+users.get("/Funcionario/traerFuncionarioInactivo", (req, res) => {
+  let consulta = `SELECT users.cedulaUser, users.emailUser, users.userName, users.password, rol.nombreRol, users.estado
   FROM users
   INNER JOIN rol ON users.rol_idRol = rol.idRol
-  WHERE rol_idRol IN (1, 0);`;
+  WHERE rol_idRol IN (2, 4) and estado='inactivo';`;
                  
   mysql.query(consulta, (error, data) => {
 
@@ -48,6 +48,51 @@ users.get("/Funcionario/traerFuncionarioAdminGerente", (req, res) => {
   });
 });
 
+
+// Traer todos los pacientes siempre por id
+users.get("/Funcionario/traerFuncionarioAdminGerente", (req, res) => {
+  let consulta = `SELECT users.cedulaUser, users.emailUser, users.userName,rol.nombreRol,users.estado
+  FROM users
+  INNER JOIN rol ON users.rol_idRol = rol.idRol
+  WHERE rol_idRol IN (1, 0) and estado='activo';`;
+                 
+  mysql.query(consulta, (error, data) => {
+
+    try {
+      if (error) {
+        console.error("Error al ejecutar la consulta:", error);
+        throw error;
+      }
+      res.status(200).send(data);
+    } catch (error) {
+      console.log(error);
+      throw `Hubo un error en la consulta: ${error}`;
+    }
+  });
+});
+
+
+// Traer todos los pacientes siempre por id
+users.get("/Funcionario/traerFuncionarioAdminGerenteInactivos", (req, res) => {
+  let consulta = `SELECT users.cedulaUser, users.emailUser, users.userName,rol.nombreRol,users.estado
+  FROM users
+  INNER JOIN rol ON users.rol_idRol = rol.idRol
+  WHERE rol_idRol IN (1, 0) and estado='inactivo';`;
+                 
+  mysql.query(consulta, (error, data) => {
+
+    try {
+      if (error) {
+        console.error("Error al ejecutar la consulta:", error);
+        throw error;
+      }
+      res.status(200).send(data);
+    } catch (error) {
+      console.log(error);
+      throw `Hubo un error en la consulta: ${error}`;
+    }
+  });
+});
 users.get("/user/verificarUsers/:cedulaUser", (req, res) => {
     let cedula= req.params.cedulaUser;
     mysql.query("SELECT*FROM users WHERE cedulaUser= ?", [cedula], (error, data) => {
@@ -121,4 +166,31 @@ users.post("/usuario/create", (req, res) => {
           }
         });
       });
+
+
+users.put("/users/updateUnoEstado/:id", (req, res) => {
+  let id = req.params.id; //parametro
+
+  mysql.query("update users set estado='inactivo' where cedulaUser=?", [id], (error, data) => {
+    try {
+      res.status(200).send("Actualizacion exitosa!!");
+    } catch (error) {
+      console.log(error);
+      throw `hay un error en la consulta${error}`;
+    }
+  });
+});
+
+users.put("/users/updateUnoEstadoActivar/:id", (req, res) => {
+  let id = req.params.id; //parametro
+
+  mysql.query("update users set estado='activo' where cedulaUser=?", [id], (error, data) => {
+    try {
+      res.status(200).send("Actualizacion exitosa!!");
+    } catch (error) {
+      console.log(error);
+      throw `hay un error en la consulta${error}`;
+    }
+  });
+});
 module.exports=users;
