@@ -1,0 +1,7 @@
+.tituloTabla {
+  display: flex;
+  justify-content: center;
+}
+.tituloTabla h2 {
+  font-family: "Times New Roman", Times, serif;
+}

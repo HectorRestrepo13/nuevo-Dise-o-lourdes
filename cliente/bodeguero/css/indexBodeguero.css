@@ -1,0 +1,13 @@
+.tituloFormulario h2 {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 40px;
+}
+
+.contendorBtnPagarMedicamentos {
+  display: flex;
+  justify-content: center;
+}
+
+.contendorBtnPagarMedicamentos button {
+  width: 50%;
+}

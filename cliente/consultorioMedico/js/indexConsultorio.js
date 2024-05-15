@@ -51,9 +51,8 @@ id="datatableCitasPacientes"
         data: "fechaCita",
         render: function (data, type, row) {
           let fechaModi = new Date(data);
-          return `${fechaModi.getDate()}/${
-            fechaModi.getMonth() + 1
-          }/${fechaModi.getFullYear()}`;
+          return `${fechaModi.getDate()}/${fechaModi.getMonth() + 1
+            }/${fechaModi.getFullYear()}`;
         },
       },
       {
@@ -95,15 +94,13 @@ const func_selecionarCliente = (id, fecha, estado) => {
     .then((date) => {
       date.forEach((elemen) => {
         let fechaModi = new Date(elemen.fechaNacimientoPqciente);
-        fechaModi = `${fechaModi.getDate()}/${
-          fechaModi.getMonth() + 1
-        }/${fechaModi.getFullYear()}`;
+        fechaModi = `${fechaModi.getDate()}/${fechaModi.getMonth() + 1
+          }/${fechaModi.getFullYear()}`;
 
         // fecha cita
         let fechaCita = new Date(fecha);
-        fechaCita = `${fechaCita.getDate()}/${
-          fechaCita.getMonth() + 1
-        }/${fechaCita.getFullYear()}`;
+        fechaCita = `${fechaCita.getDate()}/${fechaCita.getMonth() + 1
+          }/${fechaCita.getFullYear()}`;
 
         document.getElementById("idCedulaPaciente").value = id;
         document.getElementById("inputNombrePaciente").value =
@@ -591,11 +588,11 @@ const func_insertarFormularioAlaBaseDatos = () => {
 
     console.log(
       "cedula :" +
-        datosMedico +
-        " cita: " +
-        idCita +
-        " cedula Paciente: " +
-        cedulaPaciente
+      datosMedico +
+      " cita: " +
+      idCita +
+      " cedula Paciente: " +
+      cedulaPaciente
     );
     // ---------------------------------------------------------------------------------
     console.log(JSON.stringify(todoLosDatosMandar));
@@ -633,6 +630,7 @@ const func_insertarFormularioAlaBaseDatos = () => {
             // aca voy hacer que si le da en si lo envie al formulario de agendar citas si le da en cancelar se recarga la pagina
             if (result.isConfirmed) {
               // enviar al formulario de agendarCita.html
+              window.location.href = "agendarCita.html"
             } else {
               location.reload();
             }

@@ -6,7 +6,7 @@ $("#datatableFormularioPacientes").dataTable({
   ordering: false, // Desactiva la ordenación
 });
 
-$("#datatableHistorialPacientes").dataTable({
+$("#datatableDetalleFormulaPacientes").dataTable({
   info: false, // Desactiva la información sobre el número de registros mostrados y total
   paging: false, // Desactiva la paginación
   searching: false, // Desactiva la búsqueda
@@ -19,45 +19,47 @@ $("#datatableHistorialPacientes").dataTable({
 document.getElementById("btnBuscarFormula").addEventListener("click", () => {
   let cedulaPaciente = document.getElementById("inputCedulaPaciente").value;
   if (cedulaPaciente != "") {
-    // sobreEscribo la tabla en el contenedor
+    // sobreEscribo la tabla en el contenedor de la formulas
     document.getElementById("datosTablaFormula").innerHTML = `  <table
-    class="table table-bordered"
-    id="datatableFormularioPacientes"
-  >
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Paciente</th>
-        <th>Medico</th>
-        <th>Fecha Formula</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>`;
-    // -----
-    // hago lo mismo de sobreEscribir en la tabla del historial
-    document.getElementById("datosTablaHistorial").innerHTML = `<table
       class="table table-bordered"
-      id="datatableHistorialPacientes"
+      id="datatableFormularioPacientes"
     >
       <thead>
         <tr>
           <th>ID</th>
-          <th>Sintomas</th>
-          <th>Descripcion</th>
+          <th>Paciente</th>
+          <th>Medico</th>
+          <th>Fecha Formula</th>
         </tr>
       </thead>
       <tbody></tbody>
     </table>`;
+    // -----
+    // hago lo mismo de sobreEscribir en la tabla Medicamentos recetados
+    document.getElementById("datosTablaDetalleFormula").innerHTML = ` <table
+    class="table table-bordered"
+    id="datatableDetalleFormulaPacientes"
+  >
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Medicamente</th>
+        <th>Posologia</th>
+        <th>Cantidad</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>`;
     // -------
     // inicializo la tabla
-    $("#datatableHistorialPacientes").dataTable({
+    $("#datatableDetalleFormulaPacientes").dataTable({
       info: false, // Desactiva la información sobre el número de registros mostrados y total
       paging: false, // Desactiva la paginación
       searching: false, // Desactiva la búsqueda
       ordering: true, // Desactiva la ordenación
     });
     // -- FIN INICIALIZACION TABLA --
+
     $("#datatableFormularioPacientes").dataTable({
       ajax: {
         url: `http://localhost:3000/consultorio/selecionarFormulaPaciente?cedula=${cedulaPaciente}`,
@@ -113,26 +115,27 @@ document.getElementById("btnBuscarFormula").addEventListener("click", () => {
 
 // FUNCION DONDE SE VA LLENAR LA TABLA DEL HISTORIAL
 const func_llenarTablaHistorial = (idFormula) => {
-  // voy a limpiar el contenedor de la tabla historial
-  document.getElementById("datosTablaHistorial").innerHTML = `   <table
-class="table table-bordered"
-id="datatableHistorialPacientes"
+  // voy a limpiar el contenedor de la tabla detalleFormula
+  document.getElementById("datosTablaDetalleFormula").innerHTML = `<table
+  class="table table-bordered"
+  id="datatableDetalleFormulaPacientes"
 >
-<thead>
-  <tr>
-    <th>ID</th>
-    <th>Sintomas</th>
-    <th>Descripcion</th>
-  </tr>
-</thead>
-<tbody></tbody>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Medicamente</th>
+      <th>Posologia</th>
+      <th>Cantidad</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
 </table>`;
 
   // aca voy a consumir la APi del Historial
-  $("#datatableHistorialPacientes").dataTable({
+  $("#datatableDetalleFormulaPacientes").dataTable({
     ajax: {
       url:
-        "http://localHost:3000/consultorio/selecionarDatosHistorial/" +
+        "http://localHost:3000/consultorio/selecionarDetalleFormula/" +
         idFormula,
       dataSrc: "",
       error: function (xhr, status, error) {
@@ -168,13 +171,16 @@ id="datatableHistorialPacientes"
     },
     columns: [
       {
-        data: "idHistorial",
+        data: "idDetalle",
       },
       {
-        data: "sintoma",
+        data: "descripcionItem",
       },
       {
-        data: "descripcion",
+        data: "posologiaDetalle",
+      },
+      {
+        data: "cantidadDetalle",
       },
     ],
   });

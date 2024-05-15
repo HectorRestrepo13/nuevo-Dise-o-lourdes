@@ -11,10 +11,13 @@
     <meta name="author" content="" />
 
     <title>Consultorio Medico</title>
+    <!-- link de la libreria de los iconos de bootstrap-->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
+    <!-- link del CSS del historialClinico-->
+    <link rel="stylesheet" href="./css/historialClinico.css" />
     <!-- Custom fonts for this template-->
     <link
       href="../vendor/fontawesome-free/css/all.min.css"
@@ -113,9 +116,9 @@
         <!-- Heading -->
         <div class="sidebar-heading">Consultorio</div>
 
-        <!-- Nav Item - Charts -->
+        <!-- link para enviar al formulario de agendar cita-->
         <li class="nav-item">
-          <a class="nav-link" href="charts.html">
+          <a class="nav-link" href="./agendarCita.html">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Agendar Citas</span></a
           >
@@ -486,6 +489,9 @@
             <div id="contenedorPrincipal" class="row">
               <div class="col-sm-12 col-md-12 col-lg-5 col-xl-5">
                 <!-- ACA VA IR LA TABLA DONDE VA IR LA FORMULA DEL PACIENTE -->
+                <div class="tituloTabla">
+                  <h2>Formulas del Paciente</h2>
+                </div>
                 <div id="datosTablaFormula" class="table-responsive">
                   <table
                     class="table table-bordered"
@@ -505,6 +511,9 @@
               </div>
               <div class="col-sm-12 col-md-12 col-lg-7 col-xl-7">
                 <!-- ACA VA IR la TABLA DONDE VA APARECER EL HISTORIAL -->
+                <div class="tituloTabla">
+                  <h2>Historial del Paciente</h2>
+                </div>
                 <div id="datosTablaHistorial" class="table-responsive">
                   <table
                     class="table table-bordered"
